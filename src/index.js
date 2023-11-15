@@ -1,1 +1,1 @@
-console.log('the server is updating live now')
+console.log("the server is updating live now");
