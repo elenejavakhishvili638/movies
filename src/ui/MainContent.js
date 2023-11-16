@@ -1,11 +1,11 @@
 // receives movies array and returns a movie container populated with the movies with help of Movie class
 
-import Movie from "./Movie"
+import Movie from "./Movie";
 
 class MainContent {
-    constructor(moviesArr) {
-        this.moviesArr = moviesArr
-    }
+  constructor(moviesArr) {
+    this.moviesArr = moviesArr;
+  }
 
     renderMovieContainer() {
         const movieContainer = document.createElement("div") // <<creates container for the movies
@@ -22,4 +22,4 @@ class MainContent {
     }
 }
 
-export default MainContent
+export default MainContent;

@@ -10,6 +10,7 @@ class Movie {
     }
 
     renderMovie() {
+
         const movieWrapper = this.createDomElement("div")
         const movieImg = movieWrapper.appendChild(this.createDomElement("img"))
         const movieTitle = movieWrapper.appendChild(this.createDomElement("span"))
@@ -23,6 +24,7 @@ class Movie {
         movieDate.innerHTML = `Released: ${this.movie.release_date.substring(0,4)}`
 
         return movieWrapper
+
     }
 }
 
