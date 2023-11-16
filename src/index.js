@@ -5,6 +5,8 @@ import MainContent from "./ui/MainContent";
 import "./ui/Header";
 import GenreComponent from "./ui/Genres";
 
+const mainContentContainer = document.querySelector(".movies-container");
+
 const topRatedMovies = new DataService(
   "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1"
 );
@@ -12,7 +14,8 @@ const topRatedMovies = new DataService(
 try {
   const res = await topRatedMovies.fetchData();
   const movies = new MainContent(res.results);
-  movies.renderMovieContainer();
+  mainContentContainer.innerHTML = "";
+  mainContentContainer.appendChild(movies.renderMovieContainer());
 } catch (error) {
   console.log(error);
 }
@@ -44,7 +47,6 @@ if (genreButtons) {
           id = genre.id;
         }
       });
-
       const moviesByGenres = new DataService(
         `https://api.themoviedb.org/3/discover/movie?with_genres=${id}`
       );
@@ -52,7 +54,9 @@ if (genreButtons) {
       try {
         const res = await moviesByGenres.fetchData();
         const movies = new MainContent(res.results);
-        movies.renderMovieContainer();
+        console.log(res.results);
+        mainContentContainer.innerHTML = "";
+        mainContentContainer.appendChild(movies.renderMovieContainer());
       } catch (error) {
         console.log(error);
       }
@@ -61,9 +65,13 @@ if (genreButtons) {
 }
 
 // generate URL by search term
+//
 const generateUrl = (query) => {
-  return `https://api.themoviedb.org/3/search/keyword?query=${query}&page=1`;
+  //   return `https://api.themoviedb.org/3/search/keyword?query=${query}&page=1`;
+  //   return `https://api.themoviedb.org/3/discover/movie?with_keywords=${query}`
+  return "https://api.themoviedb.org/3/discover/movie?with_keywords=fic";
 };
+//
 
 // Search in data
 const input = document.getElementById("searchInput");
@@ -77,16 +85,10 @@ if (input) {
       const fetchByKeyword = new DataService(url);
       fetchByKeyword.fetchData().then((res) => {
         const mainContent = new MainContent(res.results);
-        mainContent.renderMovieContainer();
+        console.log(res.results);
+        mainContentContainer.innerHTML = "";
+        mainContentContainer.appendChild(mainContent.renderMovieContainer());
       });
     }, 1000);
   });
 }
-
-// const mainContentContainer = document.querySelector(".movies-container")
-
-// const topRatedMovies = new DataService("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=4")
-// topRatedMovies.fetchData().then(res=>{
-//     const mainContent = new MainContent(res.results)
-//     mainContentContainer.appendChild(mainContent.renderMovieContainer())
-// })

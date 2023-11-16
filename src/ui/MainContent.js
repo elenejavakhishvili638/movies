@@ -18,6 +18,7 @@ class MainContent {
             movieContainer.appendChild(movieNode)
         });
 
+        console.log(movieContainer)
         return movieContainer
     }
 }
