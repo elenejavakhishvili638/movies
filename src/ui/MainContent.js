@@ -8,10 +8,17 @@ class MainContent {
     }
 
     renderMovieContainer() {
-        this.moviesArr.forEach(mov => {
+        const movieContainer = document.createElement("div") // <<creates container for the movies
+        movieContainer.classList.add("grid", "grid-cols-5", "gap-12")
+
+        this.moviesArr.forEach(mov => { // <<loops over the movies and passes each of them to the Movie class
             const m = new Movie(mov) 
-            m.renderMovie()
+            const movieNode = m.renderMovie()
+
+            movieContainer.appendChild(movieNode)
         });
+
+        return movieContainer
     }
 }
 
