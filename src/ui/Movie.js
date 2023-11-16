@@ -6,6 +6,7 @@ class Movie {
     }
 
     renderMovie() {
+        
         console.log(this.movie)
     }
 }
