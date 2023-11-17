@@ -1,5 +1,3 @@
-import MainContent from "./MainContent";
-
 class GenreComponent {
   constructor(genres) {
     this.genres = genres;
@@ -7,17 +5,40 @@ class GenreComponent {
   }
 
   getGeneres() {
-    return this.genres
+    return this.genres;
   }
 
   create() {
     const genreListElement = document.getElementById("genre-list");
     if (genreListElement) {
-      genreListElement.innerHTML = this.genres
-        .map(
-          (genre) =>
-            `<button id="genreButton" class="shadow-btnShadow text-sm px-4">${genre.name}</button>`
-        )
+      const button = genreListElement.appendChild(
+        document.createElement("button")
+      );
+      button.textContent = "All";
+      button.classList.add(
+        "shadow-btnShadow",
+        "text-sm",
+        "px-4",
+        "bg-gray-300",
+        "md:text-lg"
+      );
+      button.setAttribute("id", "genreButton");
+
+      this.genres
+        .map((genre) => {
+          const button = genreListElement.appendChild(
+            document.createElement("button")
+          );
+          button.textContent = genre.name;
+          button.classList.add(
+            "shadow-btnShadow",
+            "text-sm",
+            "px-4",
+            "bg-white",
+            "md:text-lg"
+          );
+          button.setAttribute("id", "genreButton");
+        })
         .join("");
     }
   }
