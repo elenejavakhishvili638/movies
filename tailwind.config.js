@@ -12,6 +12,9 @@ module.exports = {
       boxShadow: {
         btnShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
       },
+      colors: {
+        textBg: "rgba(28, 26, 26, 0.486)",
+      },
     },
   },
   plugins: [],
