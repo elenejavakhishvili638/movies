@@ -4,6 +4,8 @@ import "./style.css";
 import MainContent from "./ui/MainContent";
 import "./ui/Header";
 import GenreComponent from "./ui/Genres";
+import Vault from "./state-management/Vault";
+import AppendX from "./services/AppendX";
 
 const mainContentContainer = document.querySelector(".movies-container");
 const input = document.getElementById("searchInput");
@@ -11,12 +13,16 @@ const input = document.getElementById("searchInput");
 const topRatedMovies = new DataService(
   "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1"
 );
+const appendX = new AppendX()
+
+let movies;
+let moviesVault;
 
 try {
   const res = await topRatedMovies.fetchData();
-  const movies = new MainContent(res.results);
-  mainContentContainer.innerHTML = "";
-  mainContentContainer.appendChild(movies.renderMovieContainer());
+  moviesVault = new Vault({ topRatedMovies: res.results });
+  movies = new MainContent(moviesVault.getSafe("topRatedMovies"));
+  appendX.clearAndAppendElement(".movies-container", movies.renderMovieContainer())
 } catch (error) {
   console.log(error);
 }
@@ -55,9 +61,7 @@ if (genreButtons) {
       try {
         const res = await moviesByGenres.fetchData();
         const movies = new MainContent(res.results);
-        console.log(res.results);
-        mainContentContainer.innerHTML = "";
-        mainContentContainer.appendChild(movies.renderMovieContainer());
+        appendX.clearAndAppendElement(".movies-container", movies.renderMovieContainer())
       } catch (error) {
         console.log(error);
       }
@@ -68,7 +72,7 @@ if (genreButtons) {
 // generate URL by search term
 //
 const generateUrl = (query) => {
-  return `https://api.themoviedb.org/3/search/movie?query=${query}`
+  return `https://api.themoviedb.org/3/search/movie?query=${query}`;
 };
 //
 
@@ -76,17 +80,21 @@ let timer;
 if (input) {
   input.addEventListener("input", (event) => {
     const searchTerm = event.target.value;
-    clearTimeout(timer) //<<clear timeout if user inputs another letter within 1000 ms
-    timer = setTimeout(() => {
-      const url = generateUrl(searchTerm);
 
-      const fetchByKeyword = new DataService(url);
-      fetchByKeyword.fetchData().then((res) => {
-        const mainContent = new MainContent(res.results);
-        console.log(res.results);
-        mainContentContainer.innerHTML = "";
-        mainContentContainer.appendChild(mainContent.renderMovieContainer());
-      });
+    clearTimeout(timer); //<<clear timeout if user inputs another letter within 1000 ms
+    timer = setTimeout(() => {
+      if (searchTerm === "") {
+        movies.renderMovieContainer(moviesVault.getSafe("movies"));
+        appendX.clearAndAppendElement(".movies-container", movies.renderMovieContainer())
+      } else {
+        const url = generateUrl(searchTerm);
+
+        const fetchByKeyword = new DataService(url);
+        fetchByKeyword.fetchData().then((res) => {
+          const mainContent = new MainContent(res.results);
+          appendX.clearAndAppendElement(".movies-container", mainContent.renderMovieContainer())
+        });
+      }
     }, 1000);
   });
 }

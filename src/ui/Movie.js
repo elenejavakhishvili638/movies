@@ -18,6 +18,7 @@ class Movie {
         
         movieWrapper.classList.add("flex","flex-col")
         movieImg.src = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
+        movieImg.alt = "movie-poster"
         movieImg.classList.add("mb-4")
         movieTitle.classList.add("text-lg", "font-bold")
         movieTitle.innerHTML = this.movie.title
