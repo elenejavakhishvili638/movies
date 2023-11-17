@@ -6,6 +6,7 @@ import "./ui/Header";
 import GenreComponent from "./ui/Genres";
 
 const mainContentContainer = document.querySelector(".movies-container");
+const input = document.getElementById("searchInput");
 
 const topRatedMovies = new DataService(
   "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1"
@@ -67,18 +68,15 @@ if (genreButtons) {
 // generate URL by search term
 //
 const generateUrl = (query) => {
-  //   return `https://api.themoviedb.org/3/search/keyword?query=${query}&page=1`;
-  //   return `https://api.themoviedb.org/3/discover/movie?with_keywords=${query}`
-  return "https://api.themoviedb.org/3/discover/movie?with_keywords=fic";
+  return `https://api.themoviedb.org/3/search/movie?query=${query}`
 };
 //
 
-// Search in data
-const input = document.getElementById("searchInput");
 let timer;
 if (input) {
   input.addEventListener("input", (event) => {
     const searchTerm = event.target.value;
+    clearTimeout(timer) //<<clear timeout if user inputs another letter within 1000 ms
     timer = setTimeout(() => {
       const url = generateUrl(searchTerm);
 
