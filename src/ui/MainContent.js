@@ -24,12 +24,12 @@ class MainContent {
       const m = new Movie(mov);
       const movieNode = m.renderMovie();
 
-      movieContainer.appendChild(movieNode);
-    });
 
-    // console.log(movieContainer);
-    return movieContainer;
-  }
+            movieContainer.appendChild(movieNode)
+        });
+        return movieContainer
+    }
+
 }
 
 export default MainContent;
