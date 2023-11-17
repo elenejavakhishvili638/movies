@@ -15,12 +15,14 @@ class DataService {
         },
       });
 
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response}`);
-
+      // console.log(response)
       const data = await response.json();
+      
+      if (!response.ok) throw new Error(`HTTP error! Status: ${data["status_message"]}`);
+
       return data;
     } catch (error) {
-      console.error(`Error while fetching data: ${error.message}`);
+      // console.error(`Error while fetching data: ${error.message}`);
       throw error;
     }
   }
