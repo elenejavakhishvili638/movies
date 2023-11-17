@@ -4,6 +4,7 @@ import "./style.css";
 import MainContent from "./ui/MainContent";
 import "./ui/Header";
 import GenreComponent from "./ui/Genres";
+import ErrorBox from "./ui/Error";
 
 const mainContentContainer = document.querySelector(".movies-container");
 
@@ -17,7 +18,8 @@ try {
   mainContentContainer.innerHTML = "";
   mainContentContainer.appendChild(movies.renderMovieContainer());
 } catch (error) {
-  console.log(error);
+  const messageHandler = new ErrorBox();
+  messageHandler.showMessage(error.message, "error");
 }
 
 // Fetch Genres
@@ -33,7 +35,8 @@ try {
   genreContent.create();
   genres = genreContent.getGeneres();
 } catch (error) {
-  console.log(error);
+  const messageHandler = new ErrorBox();
+  messageHandler.showMessage(error.message, "error");
 }
 
 // Filter by genres
@@ -42,6 +45,13 @@ if (genreButtons) {
   let id;
   genreButtons.forEach((button) => {
     button.addEventListener("click", async () => {
+      genreButtons.forEach((btn) => {
+        btn.classList.remove("bg-gray-300");
+        btn.classList.add("bg-white");
+      });
+      button.classList.remove("bg-white");
+
+      button.classList.add("bg-gray-300");
       genres.forEach((genre) => {
         if (genre.name === button.textContent) {
           id = genre.id;
@@ -54,11 +64,11 @@ if (genreButtons) {
       try {
         const res = await moviesByGenres.fetchData();
         const movies = new MainContent(res.results);
-        console.log(res.results);
         mainContentContainer.innerHTML = "";
         mainContentContainer.appendChild(movies.renderMovieContainer());
       } catch (error) {
-        console.log(error);
+        const messageHandler = new ErrorBox();
+        messageHandler.showMessage(error.message, "error");
       }
     });
   });
@@ -67,9 +77,7 @@ if (genreButtons) {
 // generate URL by search term
 //
 const generateUrl = (query) => {
-  //   return `https://api.themoviedb.org/3/search/keyword?query=${query}&page=1`;
-  //   return `https://api.themoviedb.org/3/discover/movie?with_keywords=${query}`
-  return "https://api.themoviedb.org/3/discover/movie?with_keywords=fic";
+  return `https://api.themoviedb.org/3/discover/movie?with_keywords=${query}`;
 };
 //
 
@@ -78,6 +86,7 @@ const input = document.getElementById("searchInput");
 let timer;
 if (input) {
   input.addEventListener("input", (event) => {
+    clearTimeout(timer);
     const searchTerm = event.target.value;
     timer = setTimeout(() => {
       const url = generateUrl(searchTerm);
@@ -85,7 +94,6 @@ if (input) {
       const fetchByKeyword = new DataService(url);
       fetchByKeyword.fetchData().then((res) => {
         const mainContent = new MainContent(res.results);
-        console.log(res.results);
         mainContentContainer.innerHTML = "";
         mainContentContainer.appendChild(mainContent.renderMovieContainer());
       });
