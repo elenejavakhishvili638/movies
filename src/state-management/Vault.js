@@ -20,9 +20,17 @@ class Vault {
     return this.container[safe];
   }
 
+  // update a safe
+  updateSafe(safeName, data) {
+    if (this.container.hasOwnProperty(safeName)) {
+      this.container[safeName] = [...this.container[safeName], ...data];
+    } else {
+      this.createSafe(safeName, data);
+    }
+  }
+
   //stores an item in the selected safe //<<<<<incomplete
   setItemToSafe(safe, item) {
-    console.log(this.container);
     const selectedSafe = this.container[safe];
 
     if (selectedSafe) {
