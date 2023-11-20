@@ -120,7 +120,11 @@ const genreListElement = document.getElementById("genre-list");
 if (genreListElement) {
   genreListElement.addEventListener("click", async (event) => {
     if (event.target && event.target.id === "genreButton") {
-      window.scrollTo(0, 0);
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
       const clickedButton = event.target;
       document.querySelectorAll("#genreButton").forEach((btn) => {
         btn.classList.remove("bg-gray-300");
