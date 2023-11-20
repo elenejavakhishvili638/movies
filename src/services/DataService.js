@@ -1,11 +1,14 @@
 // receives url and returns the result (either data or throws an error)
+import Loading from "../ui/Loading";
 
 class DataService {
   constructor(url) {
     this.url = url;
   }
   async fetchData() {
+    const loader = new Loading();
     try {
+      loader.show();
       const response = await fetch(this.url, {
         method: "GET",
         headers: {
@@ -14,8 +17,6 @@ class DataService {
             "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMjEwNTBkMGE1ZjgzODExYzYyMjFlMTZkZjcxYmZmYSIsInN1YiI6IjY1NTM4NTBlZWE4NGM3MTA5NGZmNjI5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qjQPO0PTEcXQnXecEIkTcTMzL_aVLzWJkZR9BYgTyP4",
         },
       });
-
-      // console.log(response)
       const data = await response.json();
 
       if (!response.ok)
@@ -23,8 +24,9 @@ class DataService {
 
       return data;
     } catch (error) {
-      // console.error(`Error while fetching data: ${error.message}`);
       throw error;
+    } finally {
+      loader.hide();
     }
   }
 }
