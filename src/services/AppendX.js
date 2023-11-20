@@ -11,7 +11,7 @@ class AppendX {
   //keep the inner content and append a new element
   appendElement(nodeSelector, domNode) {
     const element = document.querySelector(nodeSelector)
-    console.log(element)
+    console.log(`Caller: ${domNode}`)
     element.appendChild(domNode)
   }
 }
