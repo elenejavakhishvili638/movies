@@ -17,8 +17,9 @@ class DataService {
 
       // console.log(response)
       const data = await response.json();
-      
-      if (!response.ok) throw new Error(`HTTP error! Status: ${data["status_message"]}`);
+
+      if (!response.ok)
+        throw new Error(`HTTP error! Status: ${data["status_message"]}`);
 
       return data;
     } catch (error) {

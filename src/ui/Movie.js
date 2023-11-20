@@ -22,13 +22,13 @@ class Movie {
 
     movieWrapper.classList.add("flex", "flex-col");
     movieImg.src = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`;
-    movieImg.alt = "movie-poster"
+    movieImg.alt = "movie-poster";
     movieImg.classList.add("mb-4");
     movieImg.setAttribute("id", "image");
     imagewrapper.classList.add("relative");
     imagewrapper.addEventListener("mouseenter", () => {
       movieDescription.innerHTML = this.movie.overview;
-      imagewrapper.classList.add("md:scale-125", "md:duration-300");
+      imagewrapper.classList.add("md:scale-125", "md:duration-500");
       movieDescription.classList.remove("hidden");
       movieImg.classList.add("blur-[8px]");
       movieDescription.classList.add(
@@ -41,14 +41,14 @@ class Movie {
         "overflow-scroll",
         "text-justify",
         "bg-textBg",
-        "px-6",
-        "pt-4",
+        "px-4",
+        "py-4",
         "rounded-[2px]"
       );
     });
     imagewrapper.addEventListener("mouseleave", () => {
       movieDescription.innerHTML = this.movie.overview;
-      imagewrapper.classList.remove("md:scale-125", "md:duration-300");
+      imagewrapper.classList.remove("md:scale-125", "md:duration-500");
       movieDescription.classList.add("hidden");
       movieImg.classList.remove("blur-[8px]");
     });
