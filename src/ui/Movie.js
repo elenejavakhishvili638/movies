@@ -1,5 +1,8 @@
 // receives movie object and returns a DOM node with its information
 
+import DataService from "../services/DataService";
+import MainContent from "./MainContent";
+
 class Movie {
   constructor(movie) {
     this.movie = movie;
@@ -19,6 +22,12 @@ class Movie {
     );
     const movieTitle = movieWrapper.appendChild(this.createDomElement("span"));
     const movieDate = movieWrapper.appendChild(this.createDomElement("span"));
+
+    movieTitle.addEventListener("click", ()=> {
+      const fetcher = new DataService(`https://api.themoviedb.org/3/movie/${this.movie.id}?language=en-US`)
+      const mainContent = new MainContent()
+      fetcher.fetchData().then(movie=>mainContent.renderSingleMovieDetails(movie))
+    })
 
     movieWrapper.classList.add("flex", "flex-col");
     movieImg.src = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`;
@@ -52,7 +61,7 @@ class Movie {
       movieDescription.classList.add("hidden");
       movieImg.classList.remove("blur-[8px]");
     });
-    movieTitle.classList.add("text-lg", "font-bold");
+    movieTitle.classList.add("text-lg", "font-bold", "cursor-pointer");
     movieTitle.innerHTML = this.movie.title;
     movieDate.innerHTML = `Released: ${this.movie.release_date.substring(
       0,
