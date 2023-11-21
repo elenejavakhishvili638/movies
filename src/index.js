@@ -18,8 +18,8 @@ const topRatedMovies = new DataService(
 );
 const appendX = new AppendX();
 
-let movies;
-let moviesVault;
+export let movies;
+export let moviesVault;
 
 try {
   const res = await topRatedMovies.fetchData();
@@ -34,23 +34,20 @@ try {
   messageHandler.showMessage(error.message, "error");
 }
 
-function throttle(func, limit) {
-  let inThrottle = false;
+function debounce(func, limit) {
+  let inDebounce;
   return function () {
-    if (!inThrottle) {
-      func();
-      inThrottle = true;
-      setTimeout(() => (inThrottle = false), limit);
-    }
+    clearTimeout(inDebounce);
+    inDebounce = setTimeout(() => func(), limit);
   };
 }
 
-window.addEventListener(
+const m = document.querySelector("#movies");
+m.addEventListener(
   "scroll",
-  throttle(async () => {
-    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-    // scrollTop+clientHeight>=scrollHeight
-    if (scrollHeight - (scrollTop + clientHeight) < 500) {
+  debounce(async () => {
+    const { scrollTop, scrollHeight, clientHeight } = m;
+    if (scrollHeight - (scrollTop + clientHeight) < 700) {
       if (currentGenre === "All") {
         try {
           currentPage++;
