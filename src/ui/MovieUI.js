@@ -29,7 +29,7 @@ class MovieUI {
     appendX.appendElement("#main-container", relatedMovieSlider);
 
     const bottomPanel = relatedMovies.renderRelatedMovieSlider();
-    appendX.appendElement("#related-movie-slider", bottomPanel);
+    appendX.clearAndAppendElement("#related-movie-slider", bottomPanel);
 
     const leftPanel = this.createElement("div", "", null);
     leftPanel.id = "left-panel";
