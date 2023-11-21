@@ -117,7 +117,8 @@ const genreListElement = document.getElementById("genre-list");
 if (genreListElement) {
   genreListElement.addEventListener("click", async (event) => {
     if (event.target && event.target.id === "genreButton") {
-      window.scrollTo({
+      const main = document.querySelector("#movies");
+      main.scrollTo({
         top: 0,
         left: 0,
         behavior: "smooth",
