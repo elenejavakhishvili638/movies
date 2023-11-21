@@ -204,6 +204,12 @@ if (input) {
           );
         });
       }
+      const main = document.querySelector("#main-container");
+      const relatedMovies = document.querySelector("#related-movie-slider");
+      document.getElementById("genre-list").classList.remove("hidden");
+      if (relatedMovies) {
+        main.removeChild(relatedMovies);
+      }
     }, 1000);
   });
 }
