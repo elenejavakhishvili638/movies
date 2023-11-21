@@ -45,10 +45,6 @@ class MainContent {
     const bottomPanel = relatedMovies.renderRelatedMovieSlider()
     appendX.appendElement("#related-movie-slider", bottomPanel)
 
-    const moviePoster = document.createElement("img")
-    moviePoster.src = `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`
-    moviePoster.alt = "movie-poster"
-
     const moviePoster = document.createElement("img");
     moviePoster.src = `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`;
     moviePoster.alt = "movie-poster";
