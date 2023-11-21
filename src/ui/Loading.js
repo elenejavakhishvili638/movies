@@ -5,13 +5,16 @@ class Loading {
     this.loadingElement.setAttribute("id", "loading");
     this.loadingElement.innerHTML = `<div class="lds-dual-ring"></div>`;
     this.loadingElement.classList.add("z-10", "block");
+    let isLoading = false;
   }
 
   show() {
+    this.isLoading = true
     this.mainContentContainer.appendChild(this.loadingElement);
   }
   hide() {
-    this.mainContentContainer.removeChild(this.loadingElement);
+    this.isLoading = false
+    this.mainContentContainer.contains(this.loadingElement) && this.mainContentContainer.removeChild(this.loadingElement);
   }
 }
 

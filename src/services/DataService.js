@@ -18,7 +18,7 @@ class DataService {
         },
       });
       const data = await response.json();
-
+      
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${data["status_message"]}`);
 
@@ -26,7 +26,9 @@ class DataService {
     } catch (error) {
       throw error;
     } finally {
-      loader.hide();
+      if(loader.isLoading){
+        loader.hide();
+      }
     }
   }
 }
