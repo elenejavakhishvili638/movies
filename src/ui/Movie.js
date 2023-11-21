@@ -26,7 +26,7 @@ class Movie {
     movieTitle.addEventListener("click", ()=> {
       const fetcher = new DataService(`https://api.themoviedb.org/3/movie/${this.movie.id}?language=en-US`)
       const mainContent = new MainContent()
-      fetcher.fetchData().then(movie=>mainContent.renderSingleMovieDetails(movie))
+      fetcher.fetchData().then(movie=>mainContent.renderSingleMovieDetails(movie)).catch(e=>console.error(e.message))
     })
 
     movieWrapper.classList.add("flex", "flex-col");
