@@ -23,11 +23,17 @@ class Movie {
     const movieTitle = movieWrapper.appendChild(this.createDomElement("span"));
     const movieDate = movieWrapper.appendChild(this.createDomElement("span"));
 
-    movieTitle.addEventListener("click", ()=> {
-      const fetcher = new DataService(`https://api.themoviedb.org/3/movie/${this.movie.id}?language=en-US`)
-      const mainContent = new MainContent()
-      fetcher.fetchData().then(movie=>mainContent.renderSingleMovieDetails(movie)).catch(e=>console.error(e.message))
-    })
+
+    movieTitle.addEventListener("click", () => {
+      const fetcher = new DataService(
+        `https://api.themoviedb.org/3/movie/${this.movie.id}?language=en-US`
+      );
+      const mainContent = new MainContent();
+      fetcher
+        .fetchData()
+        .then((movie) => mainContent.renderSingleMovieDetails(movie)).catch(e=>console.error(e.message));
+    });
+
 
     movieWrapper.classList.add("flex", "flex-col");
     movieImg.src = `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`;
