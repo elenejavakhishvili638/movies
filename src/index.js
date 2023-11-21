@@ -210,6 +210,8 @@ if (input) {
       document.getElementById("genre-list").classList.remove("hidden");
       if (relatedMovies) {
         main.removeChild(relatedMovies);
+        const m = document.querySelector("#movies");
+        m.classList.add("overflow-scroll");
       }
     }, 1000);
   });
