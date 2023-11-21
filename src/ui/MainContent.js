@@ -2,22 +2,29 @@
 
 import AppendX from "../services/AppendX";
 import Movie from "./Movie";
+import RelatedMovies from "./RelatedMovies";
 
 class MainContent {
   constructor(moviesArr) {
     this.moviesArr = moviesArr;
   }
 
-  renderSingleMovieDetails(movieDetails) {
-    // const movieUI = new MovieUI(movieDetails);
+  renderSingleMovieDetails (movieDetails) {
+      // const movieUI = new MovieUI(movieDetails);
     // movieUI.renderDetails();
-    console.log(movieDetails);
-    const appendX = new AppendX();
-    const movieDetailsContainer = document.createElement("div");
-    movieDetailsContainer.id = "movie-details-container";
-    appendX.clearAndAppendElement("#main-container", movieDetailsContainer);
+    console.log(movieDetails)
+    const appendX = new AppendX()
+    const relatedMovies = new RelatedMovies(movieDetails.id)
+    const movieDetailsContainer =  document.createElement("div")
+    const relatedMovieSlider = document.createElement("div")
+    movieDetailsContainer.id = "movie-details-container"
+    relatedMovieSlider.id = "related-movie-slider"
+    relatedMovieSlider.classList.add("w-[95%]")
+
+    appendX.clearAndAppendElement("#main-container", movieDetailsContainer)
+    appendX.appendElement("#main-container", relatedMovieSlider)
     movieDetailsContainer.classList.add(
-      "flex",
+         "flex",
       "flex-col",
       "my-[2em]",
       "w-[95%]",
@@ -26,13 +33,21 @@ class MainContent {
       "md:gap-[20px]",
       "items-center",
       "md:items-start"
-    );
-    const leftPanel = document.createElement("div");
-    leftPanel.id = "left-panel";
-    appendX.appendElement("#movie-details-container", leftPanel);
-    const rightPanel = document.createElement("ul");
-    rightPanel.id = "right-panel";
-    appendX.appendElement("#movie-details-container", rightPanel);
+    )
+
+    const leftPanel = document.createElement("div")
+    leftPanel.id = "left-panel"
+    appendX.appendElement("#movie-details-container", leftPanel)
+    const rightPanel = document.createElement("ul")
+    rightPanel.id = "right-panel"
+    appendX.appendElement("#movie-details-container", rightPanel)
+
+    const bottomPanel = relatedMovies.renderRelatedMovieSlider()
+    appendX.appendElement("#related-movie-slider", bottomPanel)
+
+    const moviePoster = document.createElement("img")
+    moviePoster.src = `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`
+    moviePoster.alt = "movie-poster"
 
     const moviePoster = document.createElement("img");
     moviePoster.src = `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`;
