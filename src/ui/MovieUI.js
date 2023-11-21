@@ -1,3 +1,7 @@
+// import AppendX from "../services/AppendX";
+import AppendX from "../services/AppendX";
+import RelatedMovies from "./RelatedMovies";
+
 class MovieUI {
   createElement(tag, classNames, innerHTML) {
     const element = document.createElement(tag);
@@ -7,8 +11,25 @@ class MovieUI {
   }
 
   renderDetails(movieDetails) {
-    const movieDetailsContainer = document.getElementById("movie-details");
-    movieDetailsContainer.innerHTML = "";
+    const appendX = new AppendX();
+
+    const movieDetailsContainer = this.createElement(
+      "div",
+      "flex flex-col my-[2em] w-[95%] mx-auto md:flex-row md:gap-[20px] items-center md:items-start",
+      null
+    );
+    movieDetailsContainer.id = "movie-details-container";
+
+    const relatedMovies = new RelatedMovies(movieDetails.id);
+
+    const relatedMovieSlider = this.createElement("div", "w-[95%]", null);
+    relatedMovieSlider.id = "related-movie-slider";
+
+    appendX.clearAndAppendElement(".movies-container", movieDetailsContainer);
+    appendX.appendElement("#main-container", relatedMovieSlider);
+
+    const bottomPanel = relatedMovies.renderRelatedMovieSlider();
+    appendX.appendElement("#related-movie-slider", bottomPanel);
 
     const leftPanel = this.createElement("div", "", null);
     leftPanel.id = "left-panel";
@@ -26,7 +47,10 @@ class MovieUI {
     const details = [
       { title: "Title", value: movieDetails.title },
       { title: "Release Date", value: movieDetails.release_date },
-      { title: "Genres", value: movieDetails.map((genre) => genre.name) },
+      {
+        title: "Genres",
+        value: movieDetails.genres.map((genre) => genre.name),
+      },
       { title: "Runtime", value: `${movieDetails.runtime} minutes` },
       {
         title: "Revenue",
@@ -44,18 +68,17 @@ class MovieUI {
         "flex gap-[10px] mb-[10px] md:text-xl",
         `<h3 class="font-bold">${detail.title}: </h3><p>${detail.value}</p>`
       );
-      rightPanel.appendChild(li)
+      rightPanel.appendChild(li);
     });
-    leftPanel.appendChild(moviePoster)
-    movieDetailsContainer.appendChild(leftPanel)
-    movieDetailsContainer.appendChild(rightPanel)
+    leftPanel.appendChild(moviePoster);
+
+    appendX.appendElement("#movie-details-container", leftPanel);
+    appendX.appendElement("#movie-details-container", rightPanel);
+
+    const m = document.querySelector("#movies");
+    m.classList.remove("overflow-scroll");
+    document.getElementById("genre-list").classList.add("hidden");
   }
 }
 
 export default MovieUI;
-
-
-// movieDetailsContainer.classList.remove("hidden");
-// movieDetailsContainer.classList.add("flex");
-// document.getElementById("movies").classList.add("hidden");
-// document.getElementById("genre-list").classList.add("hidden");
