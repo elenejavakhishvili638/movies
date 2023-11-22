@@ -1,13 +1,14 @@
 import AppendX from "../services/AppendX";
-import DataService from "../services/DataService";
+// import DataService from "../services/DataService";
 import fallBackImg from "../assets/gray-bg.png";
 import MainContent from "./MainContent";
+import MovieService from "../services/MovieService";
 
-class RelatedMovies extends DataService {
-  constructor(movieId) {
-    super(
-      `https://api.themoviedb.org/3/movie/${movieId}/similar?language=en-US&page=1`
-    );
+class RelatedMovies extends MovieService {
+  movieId: number
+
+  constructor(movieId: number) {
+    super();
     this.movieId = movieId
   }
 
@@ -17,7 +18,7 @@ class RelatedMovies extends DataService {
     relatedMovies.id = "slider-container";
     relatedMovies.classList.add("flex", "gap-[10px]", "overflow-x-scroll");
 
-    this.fetchData().then((data) => {
+    this.fetchTopRatedMovies(this.movieId).then((data) => {
       data.results.forEach((movie) => {
         const movieNode = document.createElement("div");
         movieNode.id = "movie-node";
@@ -37,12 +38,8 @@ class RelatedMovies extends DataService {
         movieTitle.classList.add("cursor-pointer")
         movieTitle.innerHTML = movie.title;
         movieTitle.addEventListener("click", () => {
-          const fetcher = new DataService(
-            `https://api.themoviedb.org/3/movie/${movie.id}?language=en-US`
-          );
           const mainContent = new MainContent();
-          fetcher
-            .fetchData()
+          this.fetchMovieById(movie.id)
             .then((movie) => {
                 mainContent.renderSingleMovieDetails(movie)
             })
