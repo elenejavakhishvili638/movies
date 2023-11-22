@@ -1,13 +1,16 @@
 class Loading {
+  private mainContentContainer: HTMLElement;
+  private loadingElement: HTMLElement;
   constructor() {
-    this.mainContentContainer = document.querySelector("#movies");
+    const mainContainer = document.querySelector("#movies");
+    this.mainContentContainer = mainContainer as HTMLElement;
     this.loadingElement = document.createElement("div");
     this.loadingElement.setAttribute("id", "loading");
     this.loadingElement.innerHTML = `<div class="lds-dual-ring"></div>`;
     this.loadingElement.classList.add("z-10", "block", "place-self-center");
   }
 
-  show() {
+  render() {
     this.mainContentContainer.appendChild(this.loadingElement);
   }
   hide() {
