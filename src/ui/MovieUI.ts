@@ -1,16 +1,57 @@
-// import AppendX from "../services/AppendX";
 import AppendX from "../services/AppendX";
 import RelatedMovies from "./RelatedMovies";
 
+interface SingleMovie {
+  adult: boolean;
+  backdrop_path: string;
+  belongs_to_collection: {
+    id: number;
+    name: string;
+    poster_path: string;
+    backdrop_path: string;
+  };
+  budget: number;
+  genres: Array<{ id: number; name: string }>;
+  homepage: string;
+  id: number;
+  imdb_id: string;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  production_companies: Array<{
+    id: number;
+    logo_path: string | null;
+    name: string;
+    origin_country: string;
+  }>;
+  production_countries: Array<{ iso_3166_1: string; name: string }>;
+  release_date: string;
+  revenue: number;
+  runtime: number;
+  spoken_languages: Array<{
+    english_name: string;
+    iso_639_1: string;
+    name: string;
+  }>;
+  status: string;
+  tagline: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
 class MovieUI {
-  createElement(tag, classNames, innerHTML) {
+  createElement(tag: string, classNames: string, innerHTML: string | null) {
     const element = document.createElement(tag);
     element.className = classNames;
     if (innerHTML) element.innerHTML = innerHTML;
     return element;
   }
 
-  renderDetails(movieDetails) {
+  renderDetails(movieDetails: SingleMovie) {
     const appendX = new AppendX();
 
     const movieDetailsContainer = this.createElement(
@@ -40,7 +81,7 @@ class MovieUI {
       "img",
       "mb-[1em] sm:min-w-[200px] md:min-w-[350px]",
       null
-    );
+    ) as HTMLImageElement;
     moviePoster.src = `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`;
     moviePoster.alt = "movie-poster";
 
@@ -55,7 +96,7 @@ class MovieUI {
       {
         title: "Revenue",
         value: Intl.NumberFormat("en-US", {
-          state: "currency",
+          style: "currency",
           currency: "USD",
         }).format(movieDetails.revenue),
       },
@@ -76,8 +117,13 @@ class MovieUI {
     appendX.appendElement("#movie-details-container", rightPanel);
 
     const m = document.querySelector("#movies");
-    m.classList.remove("overflow-scroll");
-    document.getElementById("genre-list").classList.add("hidden");
+    const genreListElement = document.getElementById("genre-list");
+    if (m) {
+      m.classList.remove("overflow-scroll");
+    }
+    if (genreListElement) {
+      genreListElement.classList.add("hidden");
+    }
   }
 }
 
