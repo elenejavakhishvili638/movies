@@ -1,3 +1,7 @@
+
+// receives url and returns the result (either data or throws an error)
+
+
 class DataService {
     constructor(url) {
       this.url = url;
@@ -23,6 +27,7 @@ class DataService {
       } catch (error) {
         throw error;
       }
+
     }
   }
   

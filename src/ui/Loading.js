@@ -1,20 +1,18 @@
 class Loading {
   constructor() {
-    this.mainContentContainer = document.querySelector("#main-container");
+    this.mainContentContainer = document.querySelector("#movies");
     this.loadingElement = document.createElement("div");
     this.loadingElement.setAttribute("id", "loading");
     this.loadingElement.innerHTML = `<div class="lds-dual-ring"></div>`;
-    this.loadingElement.classList.add("z-10", "block");
-    let isLoading = false;
+    this.loadingElement.classList.add("z-10", "block", "place-self-center");
   }
 
   show() {
-    this.isLoading = true
     this.mainContentContainer.appendChild(this.loadingElement);
   }
   hide() {
-    this.isLoading = false
-    this.mainContentContainer.contains(this.loadingElement) && this.mainContentContainer.removeChild(this.loadingElement);
+    this.mainContentContainer.contains(this.loadingElement) &&
+      this.mainContentContainer.removeChild(this.loadingElement);
   }
 }
 
