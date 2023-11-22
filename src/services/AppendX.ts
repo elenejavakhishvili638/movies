@@ -2,17 +2,18 @@
 
 class AppendX {
   //clear inner content and append a new element
-  clearAndAppendElement(nodeSelector, domNode) {
-    const element = document.querySelector(nodeSelector);
-    element.innerHTML = "";
-    element.appendChild(domNode);
+  clearAndAppendElement(nodeSelector: string, domNode: HTMLElement | null) {
+    const element = document.querySelector(nodeSelector); //<< do we need typing this
+    if(element && domNode) {
+      element.innerHTML = "";
+      element.appendChild(domNode);
+    }
   }
 
   //keep the inner content and append a new element
-  appendElement(nodeSelector, domNode) {
+  appendElement(nodeSelector: string, domNode: HTMLElement | null) {
     const element = document.querySelector(nodeSelector);
-    // console.log(`Caller: ${domNode}`);
-    element.appendChild(domNode);
+    (element && domNode) && element.appendChild(domNode);
   }
 }
 

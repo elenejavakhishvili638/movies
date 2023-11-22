@@ -1,7 +1,16 @@
-class GenreComponent {
-  constructor(genres) {
+import GenreService from "../services/GenreService";
+
+interface Genres {
+  id: number;
+  name: string;
+}
+
+class GenreComponent extends GenreService{
+  genres: Genres[]
+
+  constructor(genres: Genres[]) {
+    super()
     this.genres = genres;
-    this.selectedId = null;
   }
 
   getGeneres() {
@@ -9,9 +18,9 @@ class GenreComponent {
   }
 
   create() {
-    const genreListElement = document.getElementById("genre-list");
+    const genreListElement: HTMLElement | null = document.getElementById("genre-list");
     if (genreListElement) {
-      const button = genreListElement.appendChild(
+      const button: HTMLElement | null = genreListElement.appendChild(
         document.createElement("button")
       );
       button.textContent = "All";

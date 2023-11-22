@@ -6,10 +6,13 @@ interface Genres {
 }
 
 class GenreService extends DataService {
+  constructor() {
+    super("https://api.themoviedb.org/3")
+  }
+
   async fetchGenres(): Promise<Genres[]> {
-    const url: string =
-      "https://api.themoviedb.org/3/genre/movie/list?language=en";
-    const res: Genres[] = (await this.fetchData(url));
-    return res;
+    return this.fetchData("/genre/movie/list?language=en")
   }
 }
+
+export default GenreService
