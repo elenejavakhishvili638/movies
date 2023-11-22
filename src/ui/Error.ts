@@ -1,6 +1,9 @@
 class ErrorBox {
+  private mainContentContainer: HTMLElement;
+  private container: HTMLElement;
   constructor() {
-    this.mainContentContainer = document.querySelector("#main-container");
+    const mainContainer = document.querySelector("#main-container");
+    this.mainContentContainer = mainContainer as HTMLElement;
     this.container = document.createElement("div");
     this.mainContentContainer.appendChild(this.container);
     this.container.classList.add(
@@ -16,7 +19,7 @@ class ErrorBox {
       "justify-center"
     );
   }
-  showMessage(message, type) {
+  render(message: string, type: string) {
     const messageElement = document.createElement("div");
     messageElement.textContent = message;
 

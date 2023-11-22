@@ -1,8 +1,9 @@
 class HeaderComponent {
-  constructor(title) {
+  private title: string;
+  constructor(title: string) {
     this.title = title;
   }
-  create() {
+  render(): string {
     return `
             <h1 class="text-black cursor-pointer md:text-[22px]"><i class="fa-solid fa-film pr-1"></i>${this.title}</h1>
             <div id="input-wrapper" class="items-center flex gap-2">
@@ -22,8 +23,10 @@ class HeaderComponent {
     if (btn) {
       btn.addEventListener("click", () => {
         const input = document.getElementById("searchInput");
-        input.classList.toggle("flex");
-        input.classList.toggle("hidden");
+        if (input) {
+          input.classList.toggle("flex");
+          input.classList.toggle("hidden");
+        }
       });
     }
   }
@@ -31,5 +34,7 @@ class HeaderComponent {
 
 const myHeader = new HeaderComponent("Movies");
 const header = document.querySelector("#header");
-header.innerHTML = myHeader.create();
+if (header) {
+  header.innerHTML = myHeader.render();
+}
 myHeader.toggleInput();

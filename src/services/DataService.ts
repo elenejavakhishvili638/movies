@@ -1,10 +1,9 @@
 // receives url and returns the result (either data or throws an error)
 
 class DataService {
-  constructor(private baseUrl:string) {}
+  constructor(private baseUrl: string) {}
 
-  async fetchData <T> (url: string) {
-    
+  async fetchData<T>(url: string) {
     try {
       const response = await fetch(`${this.baseUrl}${url}}`, {
         method: "GET",
@@ -15,9 +14,8 @@ class DataService {
         },
       });
 
-
       const data: T = await response.json();
-      
+
       if (!response.ok)
         // @ts-ignore
         throw new Error(`HTTP error! Status: ${data["status_message"]}`);
