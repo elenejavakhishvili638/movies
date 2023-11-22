@@ -1,4 +1,4 @@
-import DataService from "./DataService1";
+import DataService from "./DataService";
 
 interface Genres {
   id: number;

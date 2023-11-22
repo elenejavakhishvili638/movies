@@ -1,4 +1,4 @@
-import DataService from "./DataService1";
+import DataService from "./DataService";
 
 interface MovieData {
   page: number;
