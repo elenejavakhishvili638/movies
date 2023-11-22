@@ -70,9 +70,9 @@ interface SingleMovie {
 }
 
 class MainContent {
-  moviesArr: MovieData
+  moviesArr?: MovieData
 
-  constructor(moviesArr: MovieData) {
+  constructor(moviesArr?: MovieData) {
     this.moviesArr = moviesArr;
   }
 
