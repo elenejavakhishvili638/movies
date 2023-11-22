@@ -7,11 +7,13 @@ import GenreComponent from "./ui/Genres";
 import Vault from "./state-management/Vault";
 import AppendX from "./services/AppendX";
 import ErrorBox from "./ui/Error";
+import Loading from "./ui/Loading";
 
 const input = document.getElementById("searchInput");
 let currentPage = 1;
 let genrePage = 1;
 let currentGenre = "All";
+const loader = new Loading();
 
 const topRatedMovies = new DataService(
   `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=${currentPage}`
@@ -22,6 +24,7 @@ export let movies;
 export let moviesVault;
 
 try {
+  loader.show();
   const res = await topRatedMovies.fetchData();
   moviesVault = new Vault({ topRatedMovies: res.results });
   movies = new MainContent(moviesVault.getSafe("topRatedMovies"));
@@ -32,6 +35,8 @@ try {
 } catch (error) {
   const messageHandler = new ErrorBox();
   messageHandler.showMessage(error.message, "error");
+} finally {
+  loader.hide();
 }
 
 function debounce(func, limit) {
@@ -50,6 +55,7 @@ m.addEventListener(
     if (scrollHeight - (scrollTop + clientHeight) < 700) {
       if (currentGenre === "All") {
         try {
+          loader.show();
           currentPage++;
           const nextPageMovies = new DataService(
             `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=${currentPage}`
@@ -72,9 +78,12 @@ m.addEventListener(
         } catch (error) {
           const messageHandler = new ErrorBox();
           messageHandler.showMessage(error.message, "error");
+        } finally {
+          loader.hide();
         }
       } else {
         try {
+          loader.show();
           genrePage++;
           const nextPageMovies = new DataService(
             `https://api.themoviedb.org/3/discover/movie?with_genres=${currentGenre}&page=${genrePage}`
@@ -89,6 +98,8 @@ m.addEventListener(
         } catch (error) {
           const messageHandler = new ErrorBox();
           messageHandler.showMessage(error.message, "error");
+        } finally {
+          loader.hide();
         }
       }
     }
@@ -157,6 +168,7 @@ if (genreListElement) {
           );
         } else {
           try {
+            loader.show();
             const moviesByGenres = new DataService(
               `https://api.themoviedb.org/3/discover/movie?with_genres=${currentGenre}&page=${genrePage}`
             );
@@ -170,6 +182,8 @@ if (genreListElement) {
           } catch (error) {
             const messageHandler = new ErrorBox();
             messageHandler.showMessage(error.message, "error");
+          } finally {
+            loader.hide();
           }
         }
       }
@@ -195,15 +209,20 @@ if (input) {
           movies.renderMovieContainer()
         );
       } else {
+        loader.show();
         const url = generateUrl(searchTerm);
         const fetchByKeyword = new DataService(url);
-        fetchByKeyword.fetchData().then((res) => {
-          const mainContent = new MainContent(res.results);
-          appendX.clearAndAppendElement(
-            ".movies-container",
-            mainContent.renderMovieContainer()
-          );
-        });
+        fetchByKeyword
+          .fetchData()
+          .then((res) => {
+            const mainContent = new MainContent(res.results);
+            appendX.clearAndAppendElement(
+              ".movies-container",
+              mainContent.renderMovieContainer()
+            );
+          })
+          .catch((err) => console.log(err))
+          .finally(() => loader.hide());
       }
       const main = document.querySelector("#main-container");
       const relatedMovies = document.querySelector("#related-movie-slider");

@@ -1,14 +1,11 @@
 // receives url and returns the result (either data or throws an error)
-import Loading from "../ui/Loading";
 
 class DataService {
   constructor(url) {
     this.url = url;
   }
   async fetchData() {
-    const loader = new Loading();
     try {
-      loader.show();
       const response = await fetch(this.url, {
         method: "GET",
         headers: {
@@ -18,6 +15,7 @@ class DataService {
         },
       });
       const data = await response.json();
+      console.log(data)
       
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${data["status_message"]}`);
@@ -25,10 +23,6 @@ class DataService {
       return data;
     } catch (error) {
       throw error;
-    } finally {
-      if(loader.isLoading){
-        loader.hide();
-      }
     }
   }
 }
