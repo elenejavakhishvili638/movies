@@ -18,7 +18,7 @@ class RelatedMovies extends MovieService {
     relatedMovies.id = "slider-container";
     relatedMovies.classList.add("flex", "gap-[10px]", "overflow-x-scroll");
 
-    this.fetchTopRatedMovies(this.movieId).then((data) => {
+    this.fetchRelatedMovies(this.movieId).then((data) => {
       data.results.forEach((movie) => {
         const movieNode = document.createElement("div");
         movieNode.id = "movie-node";
