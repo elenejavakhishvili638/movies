@@ -3,7 +3,7 @@
 //TERMS: "Vault" - outer container of all states of the instance, "Safe" - container of the state values
 
 interface GeneralContainer<T> {
-  [key: string]: T[] | null;
+  [key: string]: T[] | undefined;
 }
 
 class Vault<T> {
@@ -16,17 +16,17 @@ class Vault<T> {
 
   //creates a safe in the container object
   //if no items are passed the safe is initialized with value of "null"
-  createSafe(safeName: string, items: T[] | null) {
+  createSafe(safeName: string | number, items: T[] | undefined) {
     this.container[safeName] = items;
   }
 
   //returns a safe by its name
-  getSafe(safe: string) {
+  getSafe(safe: string | number) {
     return this.container[safe];
   }
 
   // update a safe
-  updateSafe(safeName: string, data: T[]) {
+  updateSafe(safeName: string | number, data: T[]) {
     if (this.container.hasOwnProperty(safeName)) {
       // this.container['items'] = [...this.container['items'], ...data];
       const existingItems = this.container[safeName];

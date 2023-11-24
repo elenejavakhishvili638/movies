@@ -1,15 +1,19 @@
 import GenreService from "../services/GenreService";
 
+// interface GenresArr {
+//   genres:Genres[]
+// }
+
 interface Genres {
   id: number;
   name: string;
 }
 
-class GenreComponent extends GenreService{
-  genres: Genres[]
+class GenreComponent extends GenreService {
+  genres: Genres[];
 
   constructor(genres: Genres[]) {
-    super()
+    super();
     this.genres = genres;
   }
 
@@ -18,7 +22,8 @@ class GenreComponent extends GenreService{
   }
 
   create() {
-    const genreListElement: HTMLElement | null = document.getElementById("genre-list");
+    const genreListElement: HTMLElement | null =
+      document.getElementById("genre-list");
     if (genreListElement) {
       const button: HTMLElement | null = genreListElement.appendChild(
         document.createElement("button")

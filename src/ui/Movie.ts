@@ -1,10 +1,10 @@
 // receives movie object and returns a DOM node with its information
 
-import DataService from "../services/DataService";
+// import DataService from "../services/DataService";
 import MovieService from "../services/MovieService";
 import MainContent from "./MainContent";
 
-interface Movie {
+interface Movie1 {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -64,8 +64,8 @@ interface SingleMovie {
 }
 
 class Movie extends MovieService {
-  private movie: Movie | SingleMovie;
-  constructor(movie: Movie | SingleMovie) {
+  private movie: Movie1 | SingleMovie;
+  constructor(movie: Movie1 | SingleMovie) {
     super();
     this.movie = movie;
   }
