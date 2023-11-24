@@ -1,10 +1,12 @@
 const path = require("path");
+// import path from "path"
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+// import HtmlWebpackPlugin from "html-webpack-plugin"
 
 module.exports = {
   mode: "development",
   entry: {
-    bundle: path.resolve(__dirname, "src/index.js"),
+    bundle: path.resolve(__dirname, "src/index.ts"),
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -25,7 +27,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|ts)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -49,6 +51,9 @@ module.exports = {
         type: "asset/resource",
       },
     ],
+  },
+  resolve: {
+    extensions: ['.*', '.js', '.ts']
   },
   plugins: [
     new HtmlWebpackPlugin({

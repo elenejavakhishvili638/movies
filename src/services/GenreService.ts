@@ -1,5 +1,9 @@
 import DataService from "./DataService";
 
+interface GenresArr {
+  genres:Genres[]
+}
+
 interface Genres {
   id: number;
   name: string;
@@ -10,7 +14,7 @@ class GenreService extends DataService {
     super("https://api.themoviedb.org/3")
   }
 
-  async fetchGenres(): Promise<Genres[]> {
+  async fetchGenres(): Promise<GenresArr> {
     return this.fetchData("/genre/movie/list?language=en")
   }
 }

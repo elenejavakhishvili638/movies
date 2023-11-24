@@ -82,7 +82,7 @@ class MovieService extends DataService {
   }
 
   async fetchMoviesByGenre(
-    genreId: number,
+    genreId: string | number,
     genrePage: number
   ): Promise<MovieData> {
     return this.fetchData(
