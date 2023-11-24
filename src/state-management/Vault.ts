@@ -2,21 +2,21 @@
 //the Vault is initialized with an empty container object by default
 //TERMS: "Vault" - outer container of all states of the instance, "Safe" - container of the state values
 
-// interface GeneralContainer<T> {
-//   [key: string]: T | null;
-// }
+interface GeneralContainer<T> {
+  [key: string]: T[] | null;
+}
 
-class Vault {
+class Vault<T> {
   //!!!IMPORTANT>>if we want to give initial values to this class we MUST pass an container OBJECT containing items we want to set when instantiating
   // { <safeName>: {} }
-  private container: any;
+  private container: GeneralContainer<T>;
   constructor(container = {}) {
     this.container = container;
   }
 
   //creates a safe in the container object
   //if no items are passed the safe is initialized with value of "null"
-  createSafe(safeName: string, items = null) {
+  createSafe(safeName: string, items: T[] | null) {
     this.container[safeName] = items;
   }
 
@@ -26,16 +26,20 @@ class Vault {
   }
 
   // update a safe
-  updateSafe(safeName: string, data: any) {
+  updateSafe(safeName: string, data: T[]) {
     if (this.container.hasOwnProperty(safeName)) {
-      this.container[safeName] = [...this.container[safeName], ...data];
+      // this.container['items'] = [...this.container['items'], ...data];
+      const existingItems = this.container[safeName];
+      if (existingItems) {
+        this.container[safeName] = [...existingItems, ...data];
+      }
     } else {
       this.createSafe(safeName, data);
     }
   }
 
   //stores an item in the selected safe //<<<<<incomplete
-  setItemToSafe(safe: string, item: any) {
+  setItemToSafe(safe: string, item: T[]) {
     const selectedSafe = this.container[safe];
 
     if (selectedSafe) {
