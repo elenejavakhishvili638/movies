@@ -66,6 +66,8 @@ class MovieUI {
     const relatedMovieSlider = this.createElement("div", "w-[95%]", null);
     relatedMovieSlider.id = "related-movie-slider";
 
+    const moviesContainer = document.querySelector("#movies");
+    moviesContainer?.classList.remove("h-[81vh]");
     appendX.clearAndAppendElement(".movies-container", movieDetailsContainer);
     appendX.appendElement("#main-container", relatedMovieSlider);
 

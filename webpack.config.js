@@ -13,6 +13,7 @@ module.exports = {
     filename: "[name].js",
     clean: true,
     assetModuleFilename: "[name][ext]",
+    publicPath: '/'
   },
   devServer: {
     static: {

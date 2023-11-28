@@ -3,13 +3,14 @@ import AppendX from "../services/AppendX";
 import fallBackImg from "../assets/gray-bg.png";
 import MainContent from "./MainContent";
 import MovieService from "../services/MovieService";
+import { renderMovie } from "../../src/index";
 
 class RelatedMovies extends MovieService {
-  movieId: number
+  movieId: number;
 
   constructor(movieId: number) {
     super();
-    this.movieId = movieId
+    this.movieId = movieId;
   }
 
   renderRelatedMovieSlider() {
@@ -35,15 +36,10 @@ class RelatedMovies extends MovieService {
           "object-cover"
         );
         const movieTitle = document.createElement("span");
-        movieTitle.classList.add("cursor-pointer")
+        movieTitle.classList.add("cursor-pointer");
         movieTitle.innerHTML = movie.title;
         movieTitle.addEventListener("click", () => {
-          const mainContent = new MainContent();
-          this.fetchMovieById(movie.id)
-            .then((movie) => {
-                mainContent.renderSingleMovieDetails(movie)
-            })
-            .catch((e) => console.error(e.message));
+          renderMovie(movie.id);
         });
 
         movieNode.append(moviePoster, movieTitle);

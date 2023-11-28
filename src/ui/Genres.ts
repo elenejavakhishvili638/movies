@@ -1,9 +1,5 @@
 import GenreService from "../services/GenreService";
 
-// interface GenresArr {
-//   genres:Genres[]
-// }
-
 interface Genres {
   id: number;
   name: string;
@@ -33,7 +29,7 @@ class GenreComponent extends GenreService {
         "shadow-btnShadow",
         "text-sm",
         "px-4",
-        "bg-gray-300",
+        // "bg-gray-300",
         "md:text-lg"
       );
       button.setAttribute("id", "genreButton");
