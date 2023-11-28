@@ -5,6 +5,7 @@ type Route = {
 
 class Router {
   routes: Route[];
+
   constructor() {
     this.routes = [];
     window.addEventListener("popstate", (e) => {
@@ -30,6 +31,14 @@ class Router {
       matchingRoute.component();
     } else {
       console.log("No matches.");
+      // const mainContainer = document.querySelector("#main-container")
+      const moviesContainer = document.querySelector("#movies")
+      const notFoundPage = document.createElement("h1")
+      notFoundPage.innerHTML = "404 PAGE NOT FOUND"
+
+      moviesContainer?.appendChild(notFoundPage)
+
+      console.log(moviesContainer)
     }
   }
 

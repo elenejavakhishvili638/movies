@@ -76,6 +76,10 @@ class MovieManager {
     }
   };
 
+  renderPageNotFound = () => {
+
+  }
+
   renderEachMovie = async () => {
     const movieId = window.location.pathname.split("/").pop();
 
