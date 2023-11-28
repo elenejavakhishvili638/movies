@@ -1,8 +1,7 @@
 // receives movie object and returns a DOM node with its information
 
-// import DataService from "../services/DataService";
+import { renderMovie } from "../../src/index";
 import MovieService from "../services/MovieService";
-import MainContent from "./MainContent";
 
 interface Movie1 {
   adult: boolean;
@@ -88,9 +87,7 @@ class Movie extends MovieService {
     const movieDate = movieWrapper.appendChild(this.createDomElement("span"));
 
     movieTitle.addEventListener("click", async () => {
-      const mainContent = new MainContent();
-      const movie = await this.fetchMovieById(this.movie.id);
-      mainContent.renderSingleMovieDetails(movie);
+      renderMovie(this.movie.id);
     });
 
     movieWrapper.classList.add("flex", "flex-col");
