@@ -1,9 +1,5 @@
 import GenreService from "../services/GenreService";
-
-interface Genres {
-  id: number;
-  name: string;
-}
+import { Genres } from "../interfaces/interfaces";
 
 class GenreComponent extends GenreService {
   genres: Genres[];
