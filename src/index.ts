@@ -90,6 +90,10 @@ route.addUrl([
     path: "/movies/genre/([^/]+)/([^/]+)",
     component: movieManager.renderByGenre,
   },
+  {
+    path: "*",
+    component: movieManager.renderPageNotFound
+  }
 ]);
 
 // document.addEventListener("DOMContentLoaded", () => {

@@ -77,7 +77,12 @@ class MovieManager {
   };
 
   renderPageNotFound = () => {
+    console.log("No matches.");
+    const moviesContainer = document.querySelector("#movies")
+    const notFoundPage = document.createElement("h1")
+    notFoundPage.innerHTML = "404 PAGE NOT FOUND"
 
+    moviesContainer?.appendChild(notFoundPage)
   }
 
   renderEachMovie = async () => {

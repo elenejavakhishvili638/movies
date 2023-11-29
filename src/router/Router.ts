@@ -18,27 +18,14 @@ class Router {
   handleRouteChange() {
     const currentUrl = window.location.pathname;
     const matchingRoute = this.routes.find((route) => {
-      // console.log("route.path", route.path);
-      // console.log("currentUrl", currentUrl);
-      // console.log(
-      //   "new RegExp(`^${route.path}$`)",
-      //   new RegExp(`^${route.path}$`)
-      // );
+      if (route.path === "*") return false
       return currentUrl.match(new RegExp(`^${route.path}$`));
     });
-    // console.log("currentUrl", currentUrl);
     if (matchingRoute) {
       matchingRoute.component();
     } else {
-      console.log("No matches.");
-      // const mainContainer = document.querySelector("#main-container")
-      const moviesContainer = document.querySelector("#movies")
-      const notFoundPage = document.createElement("h1")
-      notFoundPage.innerHTML = "404 PAGE NOT FOUND"
-
-      moviesContainer?.appendChild(notFoundPage)
-
-      console.log(moviesContainer)
+      const notFoundRounte = this.routes.find((r) => r.path === "*");
+      notFoundRounte?.component();
     }
   }
 
