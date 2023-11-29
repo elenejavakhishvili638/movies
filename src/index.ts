@@ -11,23 +11,7 @@ import MovieService from "./services/MovieService";
 import GenreService from "./services/GenreService";
 import Router from "./router/Router";
 import MovieManager from "./ui/MovieManager";
-
-interface Movie {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
+import { Movie, Genres } from "./interfaces/interfaces";
 
 export const route = new Router();
 
@@ -41,39 +25,8 @@ const topRatedMovies = new MovieService();
 const appendX = new AppendX();
 
 let movies: MainContent;
-let moviesVault: Vault<Movie>;
 
-moviesVault = new Vault();
-
-// const renderMovies = async () => {
-//   if (moviesVault.getSafe("topRatedMovies")) {
-//     movies = new MainContent(moviesVault.getSafe("topRatedMovies"));
-//     appendX.clearAndAppendElement(
-//       ".movies-container",
-//       movies.renderMovieContainer()
-//     );
-//   } else {
-//     try {
-//       loader.render();
-//       const res = await topRatedMovies.fetchTopRatedMovies(currentPage);
-//       moviesVault.createSafe("topRatedMovies", res.results);
-//       movies = new MainContent(moviesVault.getSafe("topRatedMovies"));
-//       appendX.clearAndAppendElement(
-//         ".movies-container",
-//         movies.renderMovieContainer()
-//       );
-//     } catch (error) {
-//       const messageHandler = new ErrorBox();
-//       let errorMessage = "failed";
-//       if (error instanceof Error) {
-//         errorMessage = error.message;
-//       }
-//       messageHandler.render(errorMessage, "error");
-//     } finally {
-//       loader.hide();
-//     }
-//   }
-// };
+export let moviesVault: Vault<Movie> = new Vault();
 
 const movieManager = new MovieManager();
 
@@ -92,21 +45,63 @@ route.addUrl([
   },
 ]);
 
-// document.addEventListener("DOMContentLoaded", () => {
-//   route.handleRouteChange();
-// });
-route.handleRouteChange();
+const fetchedGenres = new GenreService();
+export let genres: Genres[];
+
+const renderGenres = async () => {
+  try {
+    const res = await fetchedGenres.fetchGenres();
+    const genreContent = new GenreComponent(res.genres);
+    genreContent.create();
+    genres = genreContent.getGeneres();
+    handleGenres();
+  } catch (error) {
+    const messageHandler = new ErrorBox();
+    let errorMessage = "failed";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    messageHandler.render(errorMessage, "error");
+  }
+};
+
+renderGenres();
+
+const handleGenres = () => {
+  const genreList = document.querySelectorAll("#genreButton");
+  genreList.forEach((genre) => {
+    const foundGenre = genres.find(
+      (genre) => genre.id === Number(currentGenre)
+    );
+    if (genre.textContent === currentGenre) {
+      genre.classList.remove("bg-white");
+      genre.classList.add("bg-gray-300");
+    } else if (foundGenre?.name === genre.textContent) {
+      genre.classList.remove("bg-white");
+      genre.classList.add("bg-gray-300");
+    }
+  });
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  route.handleRouteChange();
+  if (
+    window.location.pathname === "/" ||
+    window.location.pathname.includes("All")
+  ) {
+    currentGenre = "All";
+  } else {
+    const urlParts = window.location.pathname.split("/");
+    let csurrentGenre = urlParts[3];
+    let gsenrePage = urlParts[4];
+    currentGenre = csurrentGenre;
+    genrePage = Number(gsenrePage);
+  }
+});
 
 export function renderMovie(id: number) {
   route.navigateToUrl(`/movie/${id}`);
 }
-
-// async function renderEachMovie() {
-//   const movieId = window.location.pathname.split("/").pop();
-//   const movie = await topRatedMovies.fetchMovieById(Number(movieId));
-//   movies = new MainContent(moviesVault.getSafe("topRatedMovies"));
-//   movies.renderSingleMovieDetails(movie);
-// }
 
 //
 function debounce(func: { (): Promise<void>; (): void }, limit: number) {
@@ -182,44 +177,6 @@ if (m) {
     }, 400)
   );
 }
-//
-interface Genres {
-  id: number;
-  name: string;
-}
-
-const fetchedGenres = new GenreService();
-export let genres: Genres[];
-
-const renderGenres = async () => {
-  try {
-    const res = await fetchedGenres.fetchGenres();
-    const genreContent = new GenreComponent(res.genres);
-    genreContent.create();
-    genres = genreContent.getGeneres();
-  } catch (error) {
-    const messageHandler = new ErrorBox();
-    let errorMessage = "failed";
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-    messageHandler.render(errorMessage, "error");
-  }
-};
-
-renderGenres();
-//
-
-// function renderMoviesByGenre(
-//   scurrentGenre: number | string,
-//   sgenrePage: number
-// ) {
-//   route.navigateToUrl(`/movies/genre/${scurrentGenre}/${sgenrePage}`);
-// }
-
-// document.addEventListener("DOMContentLoaded", () => {
-//   console.log("hshh");
-// });
 
 // Filter by genres
 const genreListElement = document.getElementById("genre-list");
@@ -234,17 +191,12 @@ if (genreListElement) {
         left: 0,
         behavior: "smooth",
       });
-      // const clickedButton = event.target as HTMLInputElement;
       document.querySelectorAll("#genreButton").forEach((btn) => {
         btn.classList.remove("bg-gray-300");
         btn.classList.add("bg-white");
       });
-
       target.classList.remove("bg-white");
       target.classList.add("bg-gray-300");
-      console.log(currentGenre);
-      // let name: string = "";
-      // console.log(genres)
       if (window.location.pathname)
         if (target.textContent === "All") {
           currentGenre = "All";
@@ -252,113 +204,15 @@ if (genreListElement) {
           genres.forEach((genre) => {
             if (genre.name === target.textContent) {
               currentGenre = genre.id;
-              // name = genre.name;
+              // console.log(currentGenre);
             }
           });
         }
-      // renderMoviesByGenre(currentGenre, genrePage);
       route.navigateToUrl(`/movies/genre/${currentGenre}/${genrePage}`);
-
-      // route.navigateToUrl({
-      //   path: `/movies/genre/${currentGenre}/${genrePage}`,
-      //   component: ,
-      // })
-      // history.pushState({}, "", `/movies/genre/${currentGenre}/${genrePage}`);
-      // route.navigateToUrl(`/movies/genre/${currentGenre}/${genrePage}`);
-
-      // if (clickedButton.textContent === "All") {
-      //   currentGenre = "All";
-      //   movies = new MainContent(moviesVault.getSafe("topRatedMovies"));
-      //   appendX.clearAndAppendElement(
-      //     ".movies-container",
-      //     movies.renderMovieContainer()
-      //   );
-      // } else {
-      //   if (moviesVault.getSafe(name)) {
-      //     movies = new MainContent(moviesVault.getSafe(name));
-      //     appendX.clearAndAppendElement(
-      //       ".movies-container",
-      //       movies.renderMovieContainer()
-      //     );
-      //   } else {
-      //     try {
-      //       loader.render();
-      //       const moviesByGenres = new MovieService();
-      //       const res = await moviesByGenres.fetchMoviesByGenre(
-      //         currentGenre,
-      //         genrePage
-      //       );
-      //       moviesVault.createSafe(name, res.results);
-      //       const movies = new MainContent(moviesVault.getSafe(name));
-      //       appendX.clearAndAppendElement(
-      //         ".movies-container",
-      //         movies.renderMovieContainer()
-      //       );
-      //     } catch (error) {
-      //       const messageHandler = new ErrorBox();
-      //       let errorMessage = "faield";
-      //       if (error instanceof Error) {
-      //         errorMessage = error.message;
-      //       }
-      //       messageHandler.render(errorMessage, "error");
-      //     } finally {
-      //       loader.hide();
-      //     }
-      //   }
-      // }
     }
   });
 }
 
-// async function renderByGenre() {
-//   const urlParts = window.location.pathname.split("/");
-//   let csurrentGenre = urlParts[3];
-//   let genrePage = urlParts[4];
-//   if (currentGenre === "All") {
-//     currentGenre = "All";
-//     // if (moviesVault.getSafe("topRatedMovies")) {
-//     //   movies = new MainContent(moviesVault.getSafe("topRatedMovies"));
-//     //   appendX.clearAndAppendElement(
-//     //     ".movies-container",
-//     //     movies.renderMovieContainer()
-//     //   );
-//     // } else {
-//     // }
-//     route.navigateToUrl("/");
-//   } else {
-//     if (moviesVault.getSafe(currentGenre)) {
-//       movies = new MainContent(moviesVault.getSafe(currentGenre));
-//       appendX.clearAndAppendElement(
-//         ".movies-container",
-//         movies.renderMovieContainer()
-//       );
-//     } else {
-//       try {
-//         loader.render();
-//         const moviesByGenres = new MovieService();
-//         const res = await moviesByGenres.fetchMoviesByGenre(
-//           currentGenre,
-//           genrePage
-//         );
-//         moviesVault.createSafe(currentGenre, res.results);
-//         const movies = new MainContent(moviesVault.getSafe(currentGenre));
-//         appendX.clearAndAppendElement(
-//           ".movies-container",
-//           movies.renderMovieContainer()
-//         );
-//       } catch (error) {
-//         const messageHandler = new ErrorBox();
-//         let errorMessage = "failed";
-//         if (error instanceof Error) {
-//           errorMessage = error.message;
-//         }
-//         messageHandler.render(errorMessage, "error");
-//       } finally {
-//         loader.hide();
-//       }
-//     }
-//   }
-// }
 //
 let timer: string | number | NodeJS.Timeout | undefined;
 if (input) {
@@ -367,16 +221,9 @@ if (input) {
     const searchTerm = event.target as HTMLInputElement;
     timer = setTimeout(() => {
       if (searchTerm.value === "") {
-        // movies.renderMovieContainer(moviesVault.getSafe("movies"));
-        // movies.renderMovieContainer();
-        // appendX.clearAndAppendElement(
-        //   ".movies-container",
-        //   movies.renderMovieContainer()
-        // );
         route.navigateToUrl("/");
       } else {
         loader.render();
-        // const url = generateUrl(searchTerm.value);
         const fetchByKeyword = new MovieService();
         fetchByKeyword
           .fetchMovieBySearchTerm(searchTerm.value)
