@@ -13,7 +13,7 @@ module.exports = {
     filename: "[name].js",
     clean: true,
     assetModuleFilename: "[name][ext]",
-    publicPath: '/'
+    // publicPath: "/",
   },
   devServer: {
     static: {
@@ -54,7 +54,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.*', '.js', '.ts']
+    extensions: [".*", ".js", ".ts"],
   },
   plugins: [
     new HtmlWebpackPlugin({
