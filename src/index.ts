@@ -208,7 +208,6 @@ if (genreListElement) {
           genres.forEach((genre) => {
             if (genre.name === target.textContent) {
               currentGenre = genre.id;
-              // console.log(currentGenre);
             }
           });
         }
@@ -238,7 +237,7 @@ if (input) {
               mainContent.renderMovieContainer()
             );
           })
-          .catch((err) => console.log(err))
+          .catch((err) => console.error(err))
           .finally(() => loader.hide());
       }
       const main = document.querySelector("#main-container");

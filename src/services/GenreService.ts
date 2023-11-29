@@ -1,9 +1,10 @@
 import DataService from "./DataService";
 import { GenresArr } from "../interfaces/interfaces";
+import { BASE_URL } from "../env/enviroment";
 
 class GenreService extends DataService {
   constructor() {
-    super("https://api.themoviedb.org/3");
+    super(BASE_URL);
   }
 
   async fetchGenres(): Promise<GenresArr> {

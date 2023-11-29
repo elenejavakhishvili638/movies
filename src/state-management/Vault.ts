@@ -34,7 +34,7 @@ class Vault<T> {
     }
   }
 
-  //stores an item in the selected safe //<<<<<incomplete
+  //stores an item in the selected safe //
   setItemToSafe(safe: string, item: T[]) {
     const selectedSafe = this.container[safe];
 

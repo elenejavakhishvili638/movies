@@ -1,9 +1,10 @@
 import DataService from "./DataService";
 import { MovieData, SingleMovie } from "../interfaces/interfaces";
+import { BASE_URL } from "../env/enviroment";
 
 class MovieService extends DataService {
   constructor() {
-    super("https://api.themoviedb.org/3");
+    super(BASE_URL);
   }
 
   async fetchTopRatedMovies(currentPage: number): Promise<MovieData> {

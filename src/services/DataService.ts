@@ -1,5 +1,7 @@
 // receives url and returns the result (either data or throws an error)
 
+import { ACCESS_TOKEN } from "../env/enviroment";
+
 class DataService {
   constructor(private baseUrl: string) {}
 
@@ -10,7 +12,7 @@ class DataService {
         headers: {
           "Content-Type": "application/json",
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMjEwNTBkMGE1ZjgzODExYzYyMjFlMTZkZjcxYmZmYSIsInN1YiI6IjY1NTM4NTBlZWE4NGM3MTA5NGZmNjI5YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qjQPO0PTEcXQnXecEIkTcTMzL_aVLzWJkZR9BYgTyP4",
+            `Bearer ${ACCESS_TOKEN}`,
         },
       });
 
