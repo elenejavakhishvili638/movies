@@ -1,22 +1,14 @@
 import DataService from "./DataService";
-
-interface GenresArr {
-  genres:Genres[]
-}
-
-interface Genres {
-  id: number;
-  name: string;
-}
+import { GenresArr } from "../interfaces/interfaces";
 
 class GenreService extends DataService {
   constructor() {
-    super("https://api.themoviedb.org/3")
+    super("https://api.themoviedb.org/3");
   }
 
   async fetchGenres(): Promise<GenresArr> {
-    return this.fetchData("/genre/movie/list?language=en")
+    return this.fetchData("/genre/movie/list?language=en");
   }
 }
 
-export default GenreService
+export default GenreService;

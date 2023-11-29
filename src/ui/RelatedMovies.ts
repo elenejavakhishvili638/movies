@@ -1,7 +1,5 @@
 import AppendX from "../services/AppendX";
-// import DataService from "../services/DataService";
 import fallBackImg from "../assets/gray-bg.png";
-import MainContent from "./MainContent";
 import MovieService from "../services/MovieService";
 import { renderMovie } from "../../src/index";
 

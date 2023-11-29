@@ -1,10 +1,7 @@
 //container for state and state managing methods
 //the Vault is initialized with an empty container object by default
 //TERMS: "Vault" - outer container of all states of the instance, "Safe" - container of the state values
-
-interface GeneralContainer<T> {
-  [key: string]: T[] | undefined;
-}
+import { GeneralContainer } from "../interfaces/interfaces";
 
 class Vault<T> {
   //!!!IMPORTANT>>if we want to give initial values to this class we MUST pass an container OBJECT containing items we want to set when instantiating
@@ -28,7 +25,6 @@ class Vault<T> {
   // update a safe
   updateSafe(safeName: string | number, data: T[]) {
     if (this.container.hasOwnProperty(safeName)) {
-      // this.container['items'] = [...this.container['items'], ...data];
       const existingItems = this.container[safeName];
       if (existingItems) {
         this.container[safeName] = [...existingItems, ...data];
