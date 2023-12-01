@@ -34,3 +34,204 @@
     transform: rotate(360deg);
   }
 }
+
+/* fight */
+
+.ring {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  --tw-ring-shadow: none
+}
+
+.mentor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.mentor-head {
+  height: 65px;
+  width: 55px;
+  border-radius: 50%;
+  /* background-color: red; */
+}
+
+
+.mentor-body {
+  width: 50px;
+  height: 120px;
+  /* background-color: #3498db; */
+  position: relative;
+  border-radius: 20px;
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
+}
+
+.guram-hand-and-sword {
+  position: absolute;
+  top: 10%;
+  left: 45%;
+  animation: guramattack 0.35s infinite alternate;
+}
+
+.vano-hand-and-sword {
+  position: absolute;
+  top: 1%;
+  right: 45%; 
+  animation: vanoattack 0.5s infinite alternate
+}
+
+.batoni-gurami-arm {
+  background-color: #d2b48c;
+  height: 50px;
+  width: 15px;
+  border-radius: 10px;
+}
+
+.batoni-vano-arm {
+  margin-left: 125px;
+  margin-top: 12px;
+  background-color: #d2b48c;
+  height: 55px;
+  width: 15px;
+  border-radius: 10px;
+}
+
+.feet {
+  width: 23px;
+  height: 115px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: #3B5998;
+}
+
+.weapon {
+  width: 140px;
+  height: 15px;
+  background-color: #808080;
+}
+
+#batoni-gurami {
+  position: relative;
+  animation: guramJump 1.4s forwards
+}
+
+#batoni-vano {
+  position: relative;
+  animation: vanoJump 1.4s forwards
+}
+
+#batoni-gurami-body {
+  border: 1.5px solid red;
+background-image: linear-gradient(
+  to bottom,
+  #3498db 0%,
+  #3498db 10%,
+  #e74c3c 10%,
+  #e74c3c 13%,
+  #3498db 13%,
+  #3498db 20%,
+  #e74c3c 20%,
+  #e74c3c 22%,
+  #3498db 22%,
+  #3498db 30%,
+  #e74c3c 30%,
+  #e74c3c 32%,
+  #3498db 32%,
+  #3498db 40%,
+  #e74c3c 40%,
+  #e74c3c 42%,
+  #3498db 42%,
+  #3498db 50%,
+  #e74c3c 50%,
+  #e74c3c 52%,
+  #3498db 52%,
+  #3498db 60%,
+  #e74c3c 60%,
+  #e74c3c 62%,
+  #3498db 62%,
+  #3498db 70%,
+  #e74c3c 70%,
+  #e74c3c 72%,
+  #3498db 72%,
+  #3498db 80%,
+  #e74c3c 80%,
+  #e74c3c 82%,
+  #3498db 82%,
+  #3498db 90%,
+  #e74c3c 90%,
+  #e74c3c 92%,
+  #3498db 92%,
+  #3498db 100%
+);
+}
+
+#batoni-vano-body {
+  border: 1.5px solid rgb(59, 136, 63);
+  background-color: black;
+}
+
+#batoni-gurami-sword {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+#batoni-vano-sword {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  
+}
+
+@keyframes guramattack {
+  0% {
+    transform: rotate(-70deg);
+    transform-origin: left top;
+  }
+  /* 40% {
+    transform: rotate(-20deg);
+    transform-origin: left top;
+  } */
+  100% {
+    transform: rotate(0deg);
+    transform-origin: left top;
+  }
+}
+
+@keyframes vanoattack {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: right top;
+  }
+  100% {
+    transform: rotate(70deg);
+    transform-origin: right top;
+  }
+}
+
+@keyframes guramJump {
+  0% {
+    top: -50%;
+    left: -40%;
+  }
+  100% {
+    top:0;
+    left: 0;
+  }
+}
+
+@keyframes vanoJump {
+  0% {
+    top: -50%;
+    right: -40%;
+  }
+  100% {
+    top:0;
+    right: 0;
+  }
+}

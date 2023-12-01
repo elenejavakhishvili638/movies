@@ -12,6 +12,7 @@ import GenreService from "./services/GenreService";
 import Router from "./router/Router";
 import MovieManager from "./ui/MovieManager";
 import { Movie, Genres } from "./interfaces/interfaces";
+import Fight from "./ui/Fight";
 
 export const route = new Router();
 
@@ -23,6 +24,7 @@ const loader = new Loading();
 
 const topRatedMovies = new MovieService();
 const appendX = new AppendX();
+const fight = new Fight()
 
 let movies: MainContent;
 
@@ -44,10 +46,21 @@ route.addUrl([
     component: movieManager.renderByGenre,
   },
   {
+    path: "/epic-battle",
+    component: fight.epicBattle
+  },
+  {
     path: "*",
     component: movieManager.renderPageNotFound
   }
 ]);
+
+const pageIcon = document.querySelector("header :first-child")
+
+pageIcon?.addEventListener("click", ()=>{
+  const fight = new Fight()
+  fight.epicBattle()
+})
 
 const fetchedGenres = new GenreService();
 export let genres: Genres[];
